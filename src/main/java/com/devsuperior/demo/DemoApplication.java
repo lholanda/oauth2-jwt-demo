@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.devsuperior.demo.entities.Role;
-import com.devsuperior.demo.services.UserService;
+import com.devsuperior.demo.entities.User;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -18,29 +18,33 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private UserService userService;
+	// @Autowired
+	// private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
 
+	@SuppressWarnings("unused")
 	@Override
 	public void run(String... args) throws Exception {
+		if (!false) {
+			User user = new User(); // depois inicializar um user e verificar se ha rules atraves do user.hasRule() pode simular tudo pelo USER ,, substituir tudo acima
+			
+			Set<Role> roles = new HashSet<>();
+			roles.add(new Role("ROLE_OPERATOR"));
+			roles.add(new Role("ROLE_ADMIN"));
+			//roles.stream().map(Role::getAuthority).forEach(System.out::println);	
+			
+			//System.out.println("Resposta = "+ hasRole("ROLE_OPERATOR", roles) );
 
-
-		Set<Role> roles = new HashSet<>();
-		roles.add(new Role("ROLE_OPERATOR"));
-		roles.add(new Role("ROLE_ADMIN"));
-		roles.stream().map(Role::getAuthority).forEach(System.out::println);	
-
-		System.out.println("Resposta = "+ hasRole("ROLE_OPERATOR", roles) );
-
-		//System.out.println("Encode = " + passwordEncoder.encode("123456"));
-
-		//boolean result = passwordEncoder.matches("123456","$2a$10$Fs45JHQ79jLKGA2AVR4Y5uKdfIiFIRdx/AhRgArip6GpbUguGv9j2");
-		//System.out.println("Resultado = " + result);
+			// trecho que irei utilizar no LOGIN
+			
+			System.out.println("Encode = " + passwordEncoder.encode("123456"));
+			boolean result = passwordEncoder.matches("123456","$2a$10$Fs45JHQ79jLKGA2AVR4Y5uKdfIiFIRdx/AhRgArip6GpbUguGv9j2");
+			System.out.println("Resultado = " + result);
+		}
 
 	}
 

@@ -15,7 +15,7 @@ public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String authority; // padrao do spring security
+    private String authority; // nome da role : authority é o nome padrao do spring security
 
     // @ManyToMany(mappedBy = "roles")
     // Set<User> users = new HashSet<>();
@@ -28,6 +28,7 @@ public class Role implements GrantedAuthority {
         this.authority = authority;
     }
 
+    // usado no method User.hasRole()
     public Role(String authority) {
         this.authority = authority;
     }
@@ -40,6 +41,7 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
+    // indicar que estou implementando este metodo, pois coloquei o nome da role como authority
     @Override
     public String getAuthority() {
         return authority;

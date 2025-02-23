@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,8 +32,11 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER) // tirar
-    @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    //@ManyToMany(fetch = FetchType.EAGER) // tirar
+    @ManyToMany
+    @JoinTable(name = "tb_user_role", 
+               joinColumns = @JoinColumn(name = "user_id"), 
+               inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
 
     public User() {
@@ -79,6 +81,16 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    // se contem a role, retorna true
+    // HA UM CONSTRUCTOR DE APENAS new Role(roleName)
+    public boolean hasRole(String roleName) {
+       return roles.contains(new Role(roleName));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -96,20 +108,9 @@ public class User implements UserDetails {
         return id != null ? id.hashCode() : 0;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
-    }
-
-    // se contem a role, retorna true
-    // HA UM CONSTRUCTOR DE APENAS new Role(roleName)
-    public boolean hasRole(String roleName) {
-       return roles.contains(new Role(roleName));
-    }
-
     // ******************************************************************
     // Implementacao dos métodos do UserDetails   
     // ******************************************************************
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -120,7 +121,7 @@ public class User implements UserDetails {
         return email;               // sera utilizado no UserService
     }
 
-    // modificados return para true 
+    // modificados return para true , pois nao irei implementar agora
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -138,11 +139,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "User [enable=" + (isEnabled() ? "sim": "nao") + ", name=" + name + ", email=" + email + ", password=" + password + ", roles=" + roles
+                + "]";
+    }
 
+
+    
 }
 
 
