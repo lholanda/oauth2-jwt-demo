@@ -1,7 +1,15 @@
 ###
-GET http://localhost:8080/users?userName=maria@gmail.com
+POST http://localhost:8080/oauth2/token
+Authorization: Basic bXljbGllbnRpZDpteWNsaWVudHNlY3JldA==
+Content-Type:  application/x-www-form-urlencoded
 
+grant_type=password
+&client-id=myclientid
+&client-secret=myclientsecret
+&username=alex@gmail.com
+&password=123456
 
+# echo -n "myclientid:myclientsecret" | base64
 
 ###
 POST http://localhost:8080/products

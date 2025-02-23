@@ -1,7 +1,9 @@
 package com.devsuperior.demo;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -29,7 +31,20 @@ public class DemoApplication implements CommandLineRunner {
 	@SuppressWarnings("unused")
 	@Override
 	public void run(String... args) throws Exception {
-		if (!false) {
+
+        String corsOrigins = "http://localhost:3000,http://localhost:5173";
+
+		String[] origins = corsOrigins.split(",");
+		Arrays.asList(origins).forEach(System.out::println);
+
+		// for(String or : origins){
+		// 	System.out.println(or);
+		// }
+
+		//Arrays.stream(origins).map( x -> x).collect(Collectors.joining(" 1 "));
+		
+
+		if (false) {
 			User user = new User(); // depois inicializar um user e verificar se ha rules atraves do user.hasRule() pode simular tudo pelo USER ,, substituir tudo acima
 			
 			Set<Role> roles = new HashSet<>();
